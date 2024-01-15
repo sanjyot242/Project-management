@@ -18,18 +18,46 @@ function App() {
     });
   }
 
+  function onClickProjectSave(projectData) {
+    setDisplayState((prevDisplayState) => {
+      return {
+        ...prevDisplayState,
+        selectedProjectId: undefined,
+        projects: [...prevDisplayState.projects, projectData],
+      };
+    });
+  }
+
+  function onClickCancelHandler() {
+    setDisplayState((prevDisplayState) => {
+      return {
+        ...prevDisplayState,
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
+  console.log(displayState);
   let content;
 
   if (displayState.selectedProjectId === undefined) {
     content = <FallBackContent onAddProjectClick={onAddProjectClickHandler} />;
   } else if (displayState.selectedProjectId === null) {
-    content = <AddNewProject onAddProjectClick={onAddProjectClickHandler} />;
+    content = (
+      <AddNewProject
+        onClickSave={onClickProjectSave}
+        handelCancelClick={onClickCancelHandler}
+      />
+    );
   }
 
   return (
     <>
       <main className='h-screen my-8 flex gap-4'>
-        <ProjectSideBar onAddProjectClick={onAddProjectClickHandler} />
+        <ProjectSideBar
+          onAddProjectClick={onAddProjectClickHandler}
+          projectsList={displayState.projects}
+        />
         {content}
       </main>
     </>
