@@ -8,6 +8,7 @@ function App() {
   const [displayState, setDisplayState] = useState({
     selectedProjectId: undefined,
     projects: [],
+    tasks: [],
   });
 
   function onAddProjectClickHandler() {
@@ -59,6 +60,30 @@ function App() {
     });
   }
 
+  function onAddTasks(text) {
+    setDisplayState((prevDisplayState) => {
+      const taskId = Math.random();
+      const newTask = {
+        text: text,
+        id: taskId,
+        projectId: prevDisplayState.selectedProjectId,
+      };
+      return {
+        ...prevDisplayState,
+        tasks: [...prevDisplayState.tasks, newTask],
+      };
+    });
+  }
+
+  function onDeleteTasks(taskId) {
+    setDisplayState((prevDisplayState) => {
+      return {
+        ...prevDisplayState,
+        tasks: prevDisplayState.tasks.filter(({ id }) => id !== taskId),
+      };
+    });
+  }
+
   console.log(displayState);
   let content;
 
@@ -78,6 +103,11 @@ function App() {
           (project) => project.id === displayState.selectedProjectId
         )}
         deleteProject={deleteProjectHandler}
+        addTask={onAddTasks}
+        deleteTask ={onDeleteTasks}
+        viewTask={displayState.tasks.filter(
+          ({ projectId }) => projectId === displayState.selectedProjectId
+        )}
       />
     );
   }

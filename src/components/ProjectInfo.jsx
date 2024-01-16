@@ -1,4 +1,12 @@
-export default function ProjectInfo({ project, deleteProject }) {
+import Tasks from './Tasks';
+
+export default function ProjectInfo({
+  project,
+  deleteProject,
+  addTask,
+  deleteTask,
+  viewTask,
+}) {
   const formattedDate = new Date(project.dueDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -23,7 +31,7 @@ export default function ProjectInfo({ project, deleteProject }) {
           {project.description}
         </p>
       </header>
-      TASKS
+      <Tasks onAdd={addTask} viewTask={viewTask} deleteTask={deleteTask} />
     </div>
   );
 }
