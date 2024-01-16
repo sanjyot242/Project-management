@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AddNewProject from './components/AddNewProject';
 import FallBackContent from './components/FallBackContent';
+import ProjectInfo from './components/ProjectInfo';
 import ProjectSideBar from './components/ProjectSideBar';
 
 function App() {
@@ -37,6 +38,15 @@ function App() {
     });
   }
 
+  function onSelectProjectHandler(id) {
+    setDisplayState((prevDisplayState) => {
+      return {
+        ...prevDisplayState,
+        selectedProjectId: id,
+      };
+    });
+  }
+
   console.log(displayState);
   let content;
 
@@ -49,6 +59,14 @@ function App() {
         handelCancelClick={onClickCancelHandler}
       />
     );
+  } else if (displayState.selectedProjectId !== null) {
+    content = (
+      <ProjectInfo
+        project={displayState.projects.find(
+          (project) => project.id === displayState.selectedProjectId
+        )}
+      />
+    );
   }
 
   return (
@@ -57,6 +75,8 @@ function App() {
         <ProjectSideBar
           onAddProjectClick={onAddProjectClickHandler}
           projectsList={displayState.projects}
+          onClickSelect={onSelectProjectHandler}
+          selectedProjectId={displayState.selectedProjectId}
         />
         {content}
       </main>
