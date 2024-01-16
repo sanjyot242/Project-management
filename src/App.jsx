@@ -47,6 +47,18 @@ function App() {
     });
   }
 
+  function deleteProjectHandler() {
+    setDisplayState((prevDisplayState) => {
+      return {
+        ...prevDisplayState,
+        selectedProjectId: undefined,
+        projects: prevDisplayState.projects.filter(
+          (project) => project.id !== prevDisplayState.selectedProjectId
+        ),
+      };
+    });
+  }
+
   console.log(displayState);
   let content;
 
@@ -65,6 +77,7 @@ function App() {
         project={displayState.projects.find(
           (project) => project.id === displayState.selectedProjectId
         )}
+        deleteProject={deleteProjectHandler}
       />
     );
   }
